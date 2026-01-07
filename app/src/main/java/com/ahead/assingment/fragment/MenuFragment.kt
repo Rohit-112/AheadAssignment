@@ -67,8 +67,15 @@ class MenuFragment : Fragment() {
 
         viewModel.menuItems.observe(viewLifecycleOwner, Observer { resource ->
             when (resource) {
-                is Resource.Success -> adapter.updateList(resource.data)
-                is Resource.Loading -> {}
+                is Resource.Success -> {
+                    binding.featureRecyclerView.visibility = View.VISIBLE
+                    binding.errorContainer.visibility = View.GONE
+                    adapter.updateList(resource.data)
+                }
+                is Resource.Loading -> {
+                    binding.featureRecyclerView.visibility = View.GONE
+                    binding.errorContainer.visibility = View.GONE
+                }
                 is Resource.Error -> {
                     binding.featureRecyclerView.visibility = View.GONE
                     binding.errorContainer.visibility = View.VISIBLE
